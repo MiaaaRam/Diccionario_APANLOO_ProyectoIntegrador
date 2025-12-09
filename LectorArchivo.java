@@ -13,7 +13,7 @@ import java.io.BufferedReader;
  */
 public class LectorArchivo {
 
-    public static void cargarArchivo(String nombreArchivo, ArbolBinarioBusqueda<Palabra> arbol) {
+    public static void cargarArchivo(String nombreArchivo, ArbolBinarioBusqueda arbol) {
 
         File archivo = null;
         FileReader reader = null;
@@ -46,7 +46,7 @@ public class LectorArchivo {
                     Palabra p = new Palabra(lexema);
 
                     // Insertar al árbol (incrementa frecuencia si ya existe)
-                    arbol.insertar(p);
+                    arbol.insertarDato(p);
                 }
             }
 

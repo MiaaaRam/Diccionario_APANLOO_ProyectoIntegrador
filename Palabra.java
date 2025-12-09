@@ -1,29 +1,23 @@
 /**
  * Clase Palabra
  * Modelo de datos para el diccionario.
- *
- * Requisitos: lexema (minúsculas, no vacío), frecuencia (>=1),
- * compareTo por lexema, equals consistente con lexema.
+ * CORRECCIÓN: Ahora la limpieza de caracteres se hace DENTRO del constructor.
  */
 public class Palabra implements Comparable<Palabra> {
     private String lexema;
     private int frecuencia;
 
-    /**
-     * Constructor: normaliza (trim + toLowerCase) y valida lexema.
-     * Inicializa frecuencia en 1.
-     *
-     * @param lexema la palabra (no null, no vacía)
-     */
     public Palabra(String lexema) {
-        if (lexema == null) {
-            throw new IllegalArgumentException("El lexema no puede ser null.");
-        }
-        lexema = lexema.trim().toLowerCase();
-        if (lexema.isEmpty()) {
-            throw new IllegalArgumentException("El lexema no puede estar vacío.");
-        }
-        this.lexema = lexema;
+        if (lexema == null) 
+            throw new IllegalArgumentException("Lexema nulo");
+        
+        // 1. Normalizar: minúsculas y quitar espacios extremos
+        String limpio = lexema.trim().toLowerCase();
+        
+        // 2. CORRECCIÓN: Quitar todo lo que no sea letra (igual que en el Lector)
+        // Esto arregla el problema de insertar palabras manualmente con símbolos
+        limpio = limpio.replaceAll("[^a-záéíóúüñ]", " ");
+        this.lexema = limpio;
         this.frecuencia = 1;
     }
 
@@ -36,26 +30,28 @@ public class Palabra implements Comparable<Palabra> {
     }
 
     public void incrementarFrecuencia() {
-        frecuencia++;
+        this.frecuencia= frecuencia +1;
     }
 
-    @Override
+    
     public int compareTo(Palabra otra) {
         return this.lexema.compareTo(otra.lexema);
     }
 
-    @Override
+   
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Palabra)) return false;
-        Palabra otra = (Palabra) obj;
-        return this.lexema.equals(otra.lexema);
+        if (this == obj) 
+            return true;
+        if (obj == null) 
+            return false;
+        try {
+            Palabra otra = (Palabra) obj;
+            return this.lexema.equals(otra.lexema);
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return lexema.hashCode();
-    }
 
     @Override
     public String toString() {
