@@ -1,25 +1,29 @@
-public class Palabra implements Comparable<Palabra>
-{
+/**
+ * Clase Palabra
+ * Modelo de datos para el diccionario.
+ *
+ * Requisitos: lexema (minúsculas, no vacío), frecuencia (>=1),
+ * compareTo por lexema, equals consistente con lexema.
+ */
+public class Palabra implements Comparable<Palabra> {
     private String lexema;
     private int frecuencia;
 
-    public Palabra(String texto)
-    {
-        // Aquí el principiante solo intenta que no esté nulo
-        if (texto == null) {
-            texto = "";
+    /**
+     * Constructor: normaliza (trim + toLowerCase) y valida lexema.
+     * Inicializa frecuencia en 1.
+     *
+     * @param lexema la palabra (no null, no vacía)
+     */
+    public Palabra(String lexema) {
+        if (lexema == null) {
+            throw new IllegalArgumentException("El lexema no puede ser null.");
         }
-
-        // Pasarlo a minúsculas
-        texto = texto.toLowerCase();
-
-        // Quitar espacios del inicio y del final
-        texto = texto.trim();
-
-        // Si está vacío, pues así se queda (principiante no sabe validar bien)
-        this.lexema = texto;
-
-        // Frecuencia inicia en 1
+        lexema = lexema.trim().toLowerCase();
+        if (lexema.isEmpty()) {
+            throw new IllegalArgumentException("El lexema no puede estar vacío.");
+        }
+        this.lexema = lexema;
         this.frecuencia = 1;
     }
 
@@ -32,35 +36,29 @@ public class Palabra implements Comparable<Palabra>
     }
 
     public void incrementarFrecuencia() {
-        frecuencia = frecuencia + 1;
+        frecuencia++;
     }
 
-    // Orden alfabético sencillo
-    public int compareTo(Palabra otra)
-    {
-        // Programador principiante asume que nunca será null
+    @Override
+    public int compareTo(Palabra otra) {
         return this.lexema.compareTo(otra.lexema);
     }
 
-    // equals hecho de manera muy básica
-    public boolean equals(Object obj)
-    {
-        // El principiante no sabe de instanceof, compara directo
-        if (obj == null) {
-            return false;
-        }
-
-        Palabra otra = (Palabra) obj;  // asume que sí es una Palabra
-
-        if (this.lexema.equals(otra.lexema)) {
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Palabra)) return false;
+        Palabra otra = (Palabra) obj;
+        return this.lexema.equals(otra.lexema);
     }
 
+    @Override
+    public int hashCode() {
+        return lexema.hashCode();
+    }
+
+    @Override
     public String toString() {
         return lexema + " (" + frecuencia + ")";
     }
 }
-
