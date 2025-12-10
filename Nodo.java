@@ -59,7 +59,6 @@ public class Nodo {
     public Nodo getDerecho() {
         return derecho;
     }
-
     /**
      * Establece el subarbol derecho
      * * @param derecho

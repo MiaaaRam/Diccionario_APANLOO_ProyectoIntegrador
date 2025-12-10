@@ -11,22 +11,24 @@ import java.io.BufferedReader;
  * - Se dividieron las líneas en palabras.
  * - Se insertan objetos Palabra en un árbol binario de búsqueda.
  */
-public class LectorArchivo {
-
-    public static void cargarArchivo(String nombreArchivo, ArbolBinarioBusqueda arbol) {
-
+public class LectorArchivo 
+{
+    public static void cargarArchivo(String nombreArchivo, ArbolBinarioBusqueda arbol) 
+    {
         File archivo = null;
         FileReader reader = null;
         BufferedReader buffer = null;
 
-        try {
+        try 
+        {
             archivo = new File(nombreArchivo);
             reader = new FileReader(archivo);
             buffer = new BufferedReader(reader);
 
             String linea = buffer.readLine();
 
-            while (linea!= null) {
+            while (linea!= null) 
+            {
                 // Normalizar: pasar a minúsculas
                 linea = linea.toLowerCase();
 
@@ -36,9 +38,11 @@ public class LectorArchivo {
                 // Dividir en palabras
                 String[] palabras = linea.split("\\s+");
 
-                for (String lexema : palabras) {
+                for (String lexema : palabras) 
+                {
 
-                    if (lexema.equals("")) {
+                    if (lexema.equals("")) 
+                    {
                         continue; // evitar insertar vacíos
                     }
 
@@ -56,7 +60,8 @@ public class LectorArchivo {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         } finally {
             try {
-                if (reader != null) {
+                if (reader != null) 
+                {
                     reader.close();
                 }
             } catch (Exception e2) {

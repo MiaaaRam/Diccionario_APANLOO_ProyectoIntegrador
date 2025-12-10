@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-//import java.util.Queue;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,25 +7,30 @@ import java.util.ArrayList;
  * * @author Salvador Gonzalez Arellano (Adaptado para Proyecto Diccionario)
  * @version 1.1
  */
-public class ArbolBinarioBusqueda {
+public class ArbolBinarioBusqueda 
+{
     private Nodo raiz; // Raíz del árbol binario.
 
     /**
      * Constructor por defecto, asigna la raiz a null
      */
-    public ArbolBinarioBusqueda() {
+    public ArbolBinarioBusqueda() 
+    {
         raiz = null;
     }
 
-    public ArbolBinarioBusqueda(Palabra dato) {
+    public ArbolBinarioBusqueda(Palabra dato) 
+    {
         raiz = new Nodo(dato);
     }
 
-    public Nodo getRaiz() {
+    public Nodo getRaiz() 
+    {
         return raiz;
     }
 
-    public boolean esVacio() {
+    public boolean esVacio() 
+    {
         return raiz == null;
     }
 
@@ -34,8 +38,10 @@ public class ArbolBinarioBusqueda {
      * MÉTODOS DE BÚSQUEDA (Originales adaptados a Palabra)
      * ----------------------------------------------------------------- */
 
-    private Nodo encontrarNodo(Nodo actual, Palabra buscado) {
-        if (actual == null) { 
+    private Nodo encontrarNodo(Nodo actual, Palabra buscado) 
+    {
+        if (actual == null) 
+        { 
             return null;
         } else if (buscado.equals(actual.getDato())) { 
             return actual;
@@ -46,13 +52,16 @@ public class ArbolBinarioBusqueda {
         }
     }
 
-    public Nodo encontrarNodo(Palabra buscado) {
+    public Nodo encontrarNodo(Palabra buscado) 
+    {
         return encontrarNodo(raiz, buscado);
     }
     
     // Método auxiliar para obtener frecuencia directo (Requisito)
-    public int obtenerFrecuencia(String lexema) {
-        try {
+    public int obtenerFrecuencia(String lexema) 
+    {
+        try 
+        {
             Nodo res = encontrarNodo(new Palabra(lexema));
             if (res != null) return res.getDato().getFrecuencia();
         } catch (Exception e) {}
@@ -66,14 +75,17 @@ public class ArbolBinarioBusqueda {
     /**
      * Intenta insertar un dato. Si ya existe, INCREMENTA LA FRECUENCIA.
      */
-    private Nodo insertarDato(Nodo actual, Palabra dato) {
-        if (actual == null) {
+    private Nodo insertarDato(Nodo actual, Palabra dato) 
+    {
+        if (actual == null) 
+        {
             return new Nodo(dato);
         } 
         
         int comparacion = actual.getDato().compareTo(dato);
         
-        if (comparacion > 0) {
+        if (comparacion > 0) 
+        {
             actual.setIzquierdo(insertarDato(actual.getIzquierdo(), dato));
         } else if (comparacion < 0) {
             actual.setDerecho(insertarDato(actual.getDerecho(), dato));
@@ -129,27 +141,7 @@ public class ArbolBinarioBusqueda {
      * NUEVOS MÉTODOS REQUERIDOS (Rango y Top K)
      * ----------------------------------------------------------------- */
 
-    public List<Palabra> rango(String a, String b) {
-        List<Palabra> resultado = new LinkedList<>();
-        if (a == null || b == null) return resultado;
-        try {
-            // Asegurar orden
-            if (a.compareTo(b) > 0) { String t = a; a = b; b = t; }
-            Palabra pMin = new Palabra(a);
-            Palabra pMax = new Palabra(b);
-            rangoRec(raiz, pMin, pMax, resultado);
-        } catch(Exception e){}
-        return resultado;
-    }
-
-    private void rangoRec(Nodo actual, Palabra min, Palabra max, List<Palabra> lista) {
-        if (actual == null) return;
-        Palabra d = actual.getDato();
-        
-        if (d.compareTo(min) > 0) rangoRec(actual.getIzquierdo(), min, max, lista);
-        if (d.compareTo(min) >= 0 && d.compareTo(max) <= 0) lista.add(d);
-        if (d.compareTo(max) < 0) rangoRec(actual.getDerecho(), min, max, lista);
-    }
+    
 
     public List<Palabra> palabrasMasFrecuentes(int k) {
         List<Palabra> todas = getListaInOrden();
