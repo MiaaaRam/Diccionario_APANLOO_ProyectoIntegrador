@@ -3,36 +3,38 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
-
+/* Clase Main 
+*   Maneja el menú y llama a los metodos necesarios para realizar las tareas que 
+*   el usuario pide
+*/
 public class Main 
 {
-
     public static void main(String[] args) 
     {
         ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda();
-        Scanner sc = new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
 
         System.out.println("~~~~~~~~~~~~~~~~~~~DICCIONARIO CON ARBOL BINARIO~~~~~~~~~~~~~~~~~~~");
         System.out.print("Nombre del archivo con terminacion .txt : ");
-        String nombreArchivo = sc.nextLine();
+        String nombreArchivo= sc.nextLine();
         cargarArchivo(nombreArchivo, arbol);
-
-        boolean salir = false;
+        //Mientras la variable salir se mantenga en falso, el menu volvera a aparecer despues de cada operacion
+        boolean salir= false;
         while (salir==false) 
         {
-            System.out.println("--------------------MENU--------------------");
+            System.out.println("\n--------------------MENU--------------------");
             System.out.println("INGRESA EL NUMERO DE LA OPCION DESEADA");
             System.out.println("\n1.Insertar Palabra");
             System.out.println("2.Frecuencia de una palabra");
-            System.out.println("3.Ver Todo");
+            System.out.println("3.Ver todo");
             System.out.println("4.Top K en frecuencia");
             System.out.println("5.Ver Arbol");
             System.out.println("6.Salir");
             System.out.print("------->");
-            
             try 
             {
-                int op = Integer.parseInt(sc.nextLine());
+                //Recibe la opcion que eligio el usuario y la pasa a un dato de tipo Integer
+                int op=Integer.parseInt(sc.nextLine());
                 switch (op) 
                 {
                     case 1:
@@ -65,26 +67,27 @@ public class Main
                 System.out.println("Error de entrada.");
             }
         }
-        sc.close();
     }
 
     public static void cargarArchivo(String ruta, ArbolBinarioBusqueda arbol) 
     {
-        File archivo = new File(ruta);
+        File archivo=new File(ruta);
         if (!archivo.exists()) 
         {
             System.out.println("Archivo no encontrado :(");
             return;
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) 
+        try (BufferedReader br=new BufferedReader(new FileReader(archivo))) 
         {
             String linea;
-            int contador = 0;
-            while ((linea = br.readLine()) != null) 
+            int contador=0;
+            //Mientras la linea que se esta leyendo no sea nula se va a normalizar
+            while ((linea= br.readLine()) != null) 
             {
-                linea = linea.toLowerCase().replaceAll("[^a-záéíóúüñ]", " ");
+                linea=linea.toLowerCase().replaceAll("[^a-záéíóúüñ]", " ");
                 for (String w : linea.split("\\s+")) 
                 {
+                    //Si la palabra no esta vacia se inserta 
                     if (!w.isEmpty()) 
                     {
                         arbol.insertarDato(new Palabra(w));
@@ -92,7 +95,7 @@ public class Main
                     }
                 }
             }
-            System.out.println("Archivo cargado. " + contador + " palabras procesadas.");
+            System.out.println("Archivo cargado. " +contador+ " palabras procesadas.");
         } catch (Exception e) {
             System.out.println("Error leyendo archivo.");
         }
